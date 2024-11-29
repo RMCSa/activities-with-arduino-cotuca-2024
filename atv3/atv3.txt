@@ -1,0 +1,71 @@
+/*
+  Alunos:
+    Rafael Moreira - 23333
+    Marcelo Manzo  - 23326
+*/
+
+// Define as entradas do arduino que serão conectadas aos leds
+#define PWM1 3
+#define PWM2 4
+#define PWM3 5
+
+// Define, em constantes, os percentuais de PWM para os led;
+const int cinquenta = 128;
+const int setentaECinco = 191;
+const int cem = 255;
+
+void setup() {
+  Serial.begin(9600);
+
+  //Configura os pinos dos Leds como saida
+  pinMode(PWM1, OUTPUT);
+  pinMode(PWM2, OUTPUT);
+  pinMode(PWM3, OUTPUT);
+
+  // Inicializa os LEDs com os respectivos percentuais de PWM
+  analogWrite(PWM1, cinquenta);
+  analogWrite(PWM2, setentaECinco);
+  analogWrite(PWM3, cem);
+}
+
+void loop() {
+  //Se recebr algum comando da porta serial
+  if (Serial.available() > 0){
+    // Lê o comando
+    char comando = Serial.read();
+
+    //Mostra em Tela o comando, por fins de verificação
+    Serial.println(comando);
+
+    //Muda a ordem dos LEDs
+    switch(comando){
+      case '1':
+      //Mantém ordem inicial
+        analogWrite(PWM1, cinquenta);
+        analogWrite(PWM2, setentaECinco);
+        analogWrite(PWM3, cem);
+        break;
+      case '2':
+      // Altera a ordem 
+        analogWrite(PWM1, cem);
+        analogWrite(PWM2, cinquenta);
+        analogWrite(PWM3, setentaECinco);
+        break;
+        
+      case '3':
+      // Altera a ordem
+        analogWrite(PWM1, setentaECinco);
+        analogWrite(PWM2, cem);
+        analogWrite(PWM3, cinquenta);
+        break;
+
+      case '4':
+      // Desliga todos os LEDs
+        analogWrite(PWM1, 0);
+        analogWrite(PWM2, 0);
+        analogWrite(PWM3, 0);
+        break;
+        
+    }
+  }
+}
